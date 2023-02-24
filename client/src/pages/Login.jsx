@@ -19,7 +19,8 @@ function Login() {
   })
   const data = await response.json();
   
-  if(data.user){
+  
+  if(data.status == "Ok"){
     alert("Login Successful")
   }
   else{
