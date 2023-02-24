@@ -16,55 +16,65 @@ mongoose.connect('mongodb://127.0.0.1:27017/expense-tracker',(err)=>{
     console.log("Connected")
 })
 
+
 app.post("/api/register", async (req, res) => {
+
+    bcrypt.hash(req.body.password,saltRounds,function(err,hashPasword){
+        const newUser = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: hashPasword
+        })
+    
+        newUser.save(function(err){
+            if(err) console.log(err)
+            else 
+                res.json({
+                    status: true,
+                    message: "User Registered"
+
+                })
+        })
+    })
+
+    
     let encryptedpass="";
     // bcrypt.hash(req.body.password,saltRounds,function(err,hash){
     //     if(err) throw err;
     //     encryptedpass = hash
     // })
-    try {
-        await User.create({
-            name: req.body.name,
-            email: req.body.enail,
-            password: req.body.password
-        })
-        res.json({
-            status: 'ok'
-        })
-    } catch (err) {
         // res.json({
         //     status: 'error',
         //     error: "Duplicate email"
         // })
-        console.log(err);
-        res.json({
-            status: 'error',
-            error:"Duplicate key"
-        })
-    }
+        // console.log(err);
+        // res.json({
+        //     status: 'error',
+        //     error:"Duplicate key"
+        // })
 })
 app.post("/api/login", async (req, res) => {
-
-    const user = await User.findOne({
-        email: req.body.email,
-        password: req.body.password
-    })
-    if (user) {
-        const token = jwt.sign({
-            name:user.name,
-            email:user.email
-        },"secret123")
-        return res.json({
-            status: 'ok',
-            user: token
-        })
-    } else {
-        res.json({
-            status: 'error',
-            user: false
-        })
-    }
-
+    const email = req.body.email;
+    const password = req.body.password;
+        User.findOne({email:email},function(err,foundUser){
+            if(err) console.log(err)
+            else if(foundUser){
+                    bcrypt.compare(password,foundUser.password,function(err,result){
+                        if(result){
+                            res.json({
+                                status: 'Ok',
+                                message: 'User Logged in'
+                            })        
+                        }
+                    })
+                }
+                else{
+                    res.json({
+                        status: 'error',
+                        message: 'User Login failed'
+                    })
+                }
+        }) 
 })
 
 app.get("/api", (req, res) => {
