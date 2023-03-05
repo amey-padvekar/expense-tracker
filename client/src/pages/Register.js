@@ -2,10 +2,11 @@ import {useState} from "react";
 import { Router } from "react-router-dom";
 
 
-function Register() {
+function Register(props) {
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  
   async function registerUser(event){
     event.preventDefault();
     const response = await fetch("http://localhost:3001/api/register", {
@@ -20,6 +21,7 @@ function Register() {
     })
   })
   const data = await response.json();
+  props.setStatus(data.status);
   }
 
   return (
