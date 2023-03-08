@@ -9,7 +9,7 @@ module.exports= async (request,response,next)=>{
     }
     catch(err){
         response.json({
-            error: err
+            error: "jwt error"
         });
     }
 }

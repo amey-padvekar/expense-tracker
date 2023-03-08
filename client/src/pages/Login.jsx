@@ -7,28 +7,29 @@ function Login(props) {
   
   async function handleSubmit(event){
     event.preventDefault();
-    const response = await fetch("http://localhost:3001/api/login", {
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json'
-    },  
-    body: JSON.stringify({
-      email,
-      password,
-    })
-  })
-  const data = await response.json();
-  props.setStatus(true);
+    props.getUser({email:email,password:password});
+    // const response = await fetch("http://localhost:3001/api/login", {
+    // method:'POST',
+    // headers:{
+    //   'Content-Type':'application/json'
+    // },  
+    // body: JSON.stringify({
+    //   email,
+    //   password,
+    // })
+  }
+  // const data = await response.json();
+
   
   
-  if(data.status === "Ok"){
-    alert("Login Successful")
-  }
-  else{
-    alert("Please check username and password")
-    window.location.href = "/register"
-  }
-  }
+  // if(data.status === "Ok"){
+  //   alert("Login Successful")
+  // }
+  // else{
+  //   alert("Please check username and password")
+  //   window.location.href = "/register"
+  // }
+  // }
 
   return (
     <Container component="main" maxWidth="xs">

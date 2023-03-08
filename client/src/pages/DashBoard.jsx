@@ -1,14 +1,10 @@
 import React from "react";
-import {TextField} from "@mui/material";
-const DashBoard = ()=>{
-    
-    return (<div>
-        <TextField variant="standard" label="Username" />
-        <br/>
-        <TextField variant="standard" label="Email" />
-        <br/>
-        <TextField variant="standard" label="Password" />
-    </div>)
+import {Grid,Container, TextField} from "@mui/material";
+const DashBoard = (props)=>{
+    props.getExpense();
+    return (<Container>
+        
+    </Container>)
 }
 
 export default DashBoard;

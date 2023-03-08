@@ -96,12 +96,20 @@ app.post("/expenses",auth  , (req,res)=>{
     })
 })
 
-app.get("/expenses",auth,(req,res)=>{
-  Expense.find({recordedBy:req.user.userId},(err,result)=>{
-    res.json(result);
-  })
+app.get("/expenses/:user",(req,res)=>{
+  res.json({user:req.params.user});
+  // Expense.find({recordedBy:req.params.user},(err,result)=>{
+  //   if(err){
+  //     res.json({error:err})
+  //   }
+  //   else{
+      
+  //     res.json(result)
+      
+  //   }
+  // })
 })
-app.delete("/delete/:expenseId",(req,res)=>{
+app.delete("/delete/expenseId",(req,res)=>{
   console.log(req.params);
   Expense.findByIdAndDelete({_id:req.params.expenseId},(err,result)=>{
     if(err) res.json({error:err})
@@ -109,8 +117,8 @@ app.delete("/delete/:expenseId",(req,res)=>{
   })
 })
 
-app.get("/free-endpoint/:id", (request, response) => {
-  response.json({ message: "You are free to access me anytime",id:request.params.id });
+app.get("/free-endpoint", (request, response) => {
+  response.json({ message: "You are free to access me anytime" });
 });
 
 // authentication endpoint
